@@ -82,7 +82,7 @@ class SE2:
         V = 1/theta * np.array([[st, ct-1], [1 - ct, st]])
         t = V @ X[:2,2]
         
-        return cls.fromAngle(theta, t)
+        return cls.fromAngle(-theta, t) #Added a - sign here to get a passive rotation matrix. Is there a better way to do this?
     
     @staticmethod
     def vee(X):

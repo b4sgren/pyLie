@@ -73,20 +73,20 @@ class SE2_Test(unittest.TestCase):
 
             np.testing.assert_allclose(logT_true, logT, atol=1e-7)
 
-    # def testExp(self): #This test fails
-    #     for i in range(100):
-    #         v = np.random.uniform(-10, 10, size=2)
-    #         theta = np.random.uniform(-np.pi, np.pi)
+    def testExp(self): #Works with a hack as mentioned in the se2 class. See if there is a better way to do this
+        for i in range(100):
+            v = np.random.uniform(-10, 10, size=2)
+            theta = np.random.uniform(-np.pi, np.pi)
 
-    #         logT = np.array([[0, -theta, v[0]],
-    #                         [theta, 0, v[1]],
-    #                         [0, 0, 0]])
+            logT = np.array([[0, -theta, v[0]],
+                            [theta, 0, v[1]],
+                            [0, 0, 0]])
             
-    #         T = SE2.exp(logT)
+            T = SE2.exp(logT)
 
-    #         T_true = spl.expm(logT)
+            T_true = spl.expm(logT)
 
-    #         np.testing.assert_allclose(T_true, T.arr, atol=1e-7)
+            np.testing.assert_allclose(T_true, T.arr, atol=1e-7)
     
     def testVee(self):
         for i in range(100):
