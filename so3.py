@@ -38,29 +38,28 @@ class SO3:
         theta = angles[1]
         psi = angles[2]
         
-        #NOTE: May need to switch the signs on all these rotation matrices to get them to be passive rotations
         cps = np.cos(psi)
         sps = np.sin(psi)
-        R1 = np.array([[cps, -sps, 0], [sps, cps, 0], [0, 0, 1]])
+        R1 = np.array([[cps, sps, 0], [-sps, cps, 0], [0, 0, 1]])
 
         ct = np.cos(theta)
         st = np.sin(theta)
-        R2 = np.array([[ct, 0, st], [0, 1, 0], [-st, 0, ct]])
+        R2 = np.array([[ct, 0, -st], [0, 1, 0], [st, 0, ct]])
 
         cp = np.cos(phi)
         sp = np.sin(phi)
-        R3 = np.array([[1, 0, 0], [0, cp, -sp], [0, sp, cp]])
+        R3 = np.array([[1, 0, 0], [0, cp, sp], [0, -sp, cp]])
 
         return cls(R1 @ R2 @ R3)
     
     @classmethod 
-    def fromAxisAngle(cls, w): #May need to do transpose to get passive rotation
+    def fromAxisAngle(cls, w): #Added a transpose at the end. Not sure if there is a better solution to get a passive rotation from it
         theta = np.linalg.norm(w)
         skew_w = np.array([[0, -w[2], w[1]], [w[2], 0, -w[0]], [-w[1], w[0], 0]])
 
         arr = np.eye(3) + np.sin(theta) / theta * skew_w + (1 - np.cos(theta)) / (theta**2) * (skew_w @ skew_w)
 
-        return cls(arr)
+        return cls(arr.T)
 
     @classmethod #Not sure that I want this one. I will have a separate quaternion class that I want to implement
     def fromQuaternion(cls, q):
@@ -88,5 +87,5 @@ class SO3:
         return (G @ omega).squeeze()
     
     @property 
-    def Adj(self): #Need to test this still
+    def Adj(self): 
         return self.arr
