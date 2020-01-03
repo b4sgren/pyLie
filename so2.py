@@ -28,7 +28,7 @@ class SO2:
     def fromAngle(cls, theta):
         ct = np.cos(theta)
         st = np.sin(theta)
-        R = np.array([[ct, -st], [st, ct]])
+        R = np.array([[ct, st], [-st, ct]])
         return cls(R)
 
     @classmethod
@@ -38,7 +38,7 @@ class SO2:
     
     @staticmethod
     def log(R): 
-        theta = np.arctan2(R.arr[1,0], R.arr[0,0])
+        theta = np.arctan2(R.arr[0,1], R.arr[0,0])
         return G * theta
 
     @staticmethod
