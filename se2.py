@@ -1,6 +1,5 @@
 import numpy as np 
 
-#G might change if the R part of arr changes
 G = np.array([[[0, 0, 1],
                 [0, 0, 0],
                 [0, 0, 0]],
@@ -19,7 +18,7 @@ class SE2:
     def inv(self):
         return SE2(self.arr[:2,:2].T, -self.arr[:2,:2].T @ self.arr[:2,2])
 
-    def __mul__(self, T2): # May need to check if this is an SE2 object or a point to be transformed. 
+    def __mul__(self, T2): 
         if isinstance(T2, SE2):
             temp = self.arr @ T2.arr
             return SE2(temp[:2,:2], temp[:2,2])
@@ -53,7 +52,7 @@ class SE2:
     def fromAngle(cls, theta, t):
         ct = np.cos(theta)
         st = np.sin(theta)
-        R = np.array([[ct, -st], [st, ct]])
+        R = np.array([[ct, st], [-st, ct]])
 
         return cls(R, t)
     
